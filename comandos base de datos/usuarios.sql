@@ -17,3 +17,5 @@ CREATE TABLE
     ) ENGINE = InnoDB;
 
 ALTER TABLE `usuarios` ADD UNIQUE (`idUsuario`);
+
+ALTER TABLE `usuarios` CHANGE `telefono` `telefono` VARCHAR(11) NOT NULL;

@@ -113,9 +113,10 @@ main .container {
 }
 
 main h1 {
-    color: var(--main);
+    color: var(--stroke);
     font-size: 3.5rem;
     margin-bottom: 2rem;
+    font-family: 'lato', sans-serif;
 }
 
 main p {
@@ -150,4 +151,12 @@ main p {
 
 a:hover {
     text-decoration: underline;
+}
+
+li {
+    display: inline;
+}
+
+#ABC {
+    background-color: #d1d1e9;
 }

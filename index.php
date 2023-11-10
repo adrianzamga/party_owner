@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./assets/icons8-meeting.svg">
     <link rel="stylesheet" href="./Styles/index.css">
-    <link rel="stylesheet" href="./Styles/li.css">
     <title>Party Owner</title>
    
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -96,5 +95,6 @@
                 <a href="#">Terminos y condiciones</a>
             </div>
         </div>
+    </footer>
 </body>
 </html>

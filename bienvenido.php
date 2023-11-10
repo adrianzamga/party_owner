@@ -1,5 +1,8 @@
 hola <?php
 session_start();
+if(!isset($_SESSION['correo'])){
+    header('Location:index.php');
+}
 if(isset($_POST['logout'])){
     session_destroy();
     header('Location:index.php');

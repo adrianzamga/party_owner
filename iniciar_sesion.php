@@ -24,6 +24,7 @@ if (isset($_POST['validar'])) {
         $_SESSION['nombre'] = $campo['nombre'];
         $_SESSION['telefono'] = $campo['telefono'];
         $_SESSION['fechaNacimiento'] = $campo['fechaNacimiento'];
+        $_SESSION['foto'] = $campo['foto'];
         header('Location:bienvenido.php');
     } else {
         $error = '

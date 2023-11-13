@@ -13,7 +13,7 @@
 <body style="background-image: url(./Images/rrr.avif);">
 <!-- Empieza Navbar -->
 <nav class='nav-bar'>
-        <a href="#">
+        <a href="./index.php">
             <div class='logo'> 
                 <img src="./assets/icons8-meeting.svg" alt="logo"class='logo'>
                 <p>Party Owner</p>

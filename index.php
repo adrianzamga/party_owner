@@ -14,7 +14,7 @@
 </head>
 <body>
     <nav class='nav-bar'>
-        <a href="#">
+        <a href="./index.php">
             <div class='logo'> 
                 <img src="./assets/icons8-meeting.svg" alt="logo"class='logo'>
                 <p>Party Owner</p>

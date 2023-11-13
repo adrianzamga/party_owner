@@ -15,7 +15,10 @@
 }
 
 body {
-    background-color: var(--highlight);
+    background: rgb(106, 97, 154);
+    background: linear-gradient(35deg, rgba(106, 97, 154, 1) 12%, rgba(116, 99, 196, 1) 27%, rgba(98, 70, 234, 0.9472163865546218) 47%);
+    max-width: 100%;
+    height: 100vh;
 }
 
 .nav-bar {

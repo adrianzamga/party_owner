@@ -20,6 +20,7 @@ if (isset($_POST['validar'])) {
 
 
     if ($count) {
+        $_SESSION['idUsuario'] = $campo['idUsuario'];
         $_SESSION['correo'] = $correo;
         $_SESSION['nombre'] = $campo['nombre'];
         $_SESSION['telefono'] = $campo['telefono'];

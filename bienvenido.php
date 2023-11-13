@@ -45,7 +45,7 @@ if(isset($_POST['logout'])){
             </form>
         </div>
         
-    </nav>
+</nav>
     <main>
         <div class="contenedor">
             <div class="cards-container">

@@ -3,39 +3,6 @@ require './qr_code/phpqrcode/qrlib.php';
 
 session_start();
 
-require_once("conexion.php");
-if(!isset($_SESSION['correo'])){
-    header('Location:index.php');
-}
-
-if(isset($_POST['logout'])){
-    session_destroy();
-    header('Location:index.php');
-}
-
-function generarQR($invitadoQR){
-    $dir = './qr_code/temp/';
-    if (!file_exists($dir))
-        mkdir($dir);
-    $filename = $dir.$invitadoQR.'.png';
-    $tamaño = 10; //Tamaño de Pixel
-    $level = 'H'; //Precisión 
-    $frameSize = 3; //Tamaño en blanco
-    $contenido = $invitadoQR; //Texto
-    QRcode::png($contenido, $filename, $level, $tamaño, $frameSize);
-    return $filename;
-}
-
-function crearId(){
-    global $cnnPDO;
-    $query = $cnnPDO->prepare('SELECT * FROM invitados');
-    $query->execute();
-    $contador=1;
-    while($campo = $query->fetch()){
-        $contador = $contador + 1; 
-    }
-    return $contador;
-}
 
 $idUsuario = $_SESSION['idUsuario'];
 $nombre = $_SESSION['nombre'];
@@ -50,16 +17,134 @@ $_SESSION['fechaEvento'];
 $_SESSION['hora_evento'];
 $_SESSION['ubicacionEvento'];
 
+require_once("conexion.php");
+if(!isset($_SESSION['correo'])){
+    header('Location:index.php');
+}
+
+if(isset($_POST['logout'])){
+    session_destroy();
+    header('Location:index.php');
+}
+
+if(isset($_POST['whats'])){
+    //TOKEN QUE NOS DA FACEBOOK
+    $token = '';
+    //NUESTRO TELEFONO
+    $telefono = '52'.$_POST['telefonoInvitado'];
+    //URL A DONDE SE MANDARA EL MENSAJE
+    $url = '';
+    
+    $urlImage = 'https://jaircamacho.000webhostapp.com/icons8-meeting-96.png';
+    
+    $nombreEveneto = $_SESSION['nombreEvento'];;
+    $usuario = $_SESSION['nombre'];
+    $fecha = $_SESSION['fechaEvento'];
+    $hora = $_SESSION['hora_evento'];
+    $ubicacion = $_SESSION['ubicacionEvento'];
+    
+    //CONFIGURACION DEL MENSAJE
+    $mensaje = ''
+            . '{'
+            . '"messaging_product": "whatsapp", '
+            . '"to": "'.$telefono.'", '
+            . '"type": "template", '
+            . '"template": '
+            . '{'
+            . '     "name": "invitacion",'
+            . '     "language":{ "code": "es_MX" }, '
+            . '     "components": ['
+            . '         {'
+            . '             "type": "header",'
+            . '             "parameters": ['
+            . '                 {'
+            . '                     "type": "IMAGE",'
+            . '                     "image": { "link": "'.$urlImage.'" }'
+            . '                 }'
+            . '             ]'
+            . '         },'
+            . '         {'
+            . '             "type": "body",'
+            . '             "parameters": ['
+            . '                 {'
+            . '                     "type": "TEXT",'
+            . '                     "text": "'.$nombreEveneto.'"'
+            . '                 },'
+            . '                 {'
+            . '                     "type": "TEXT",'
+            . '                     "text": "'.$usuario.'"'
+            . '                 },'
+            . '                 {'
+            . '                     "type": "TEXT",'
+            . '                     "text": "'.$fecha.'"'
+            . '                 },'
+            . '                 {'
+            . '                     "type": "TEXT",'
+            . '                     "text": "'.$hora.'"'
+            . '                 },'
+            . '                 {'
+            . '                     "type": "TEXT",'
+            . '                     "text": "'.$ubicacion.'"'
+            . '                 }'
+            . '             ]'
+            . '         }'
+            . '     ]'
+            . '} '
+            . '}';
+    //DECLARAMOS LAS CABECERAS
+    $header = array("Authorization: Bearer " . $token, "Content-Type: application/json",);
+    //INICIAMOS EL CURL
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $mensaje);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    //OBTENEMOS LA RESPUESTA DEL ENVIO DE INFORMACION
+    $response = json_decode(curl_exec($curl), true);
+    //IMPRIMIMOS LA RESPUESTA 
+    //print_r($response);
+    //OBTENEMOS EL CODIGO DE LA RESPUESTA
+    $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    //CERRAMOS EL CURL
+    curl_close($curl);
+}
+
+
+function crearId(){
+    global $cnnPDO;
+    $query = $cnnPDO->prepare('SELECT * FROM invitados');
+    $query->execute();
+    $contador=1;
+    while($campo = $query->fetch()){
+        $contador = $contador + 1; 
+    }
+    return $contador;
+}
+
+function generarQR($invitadoQR){
+    $dir = './temp/';
+    if (!file_exists($dir))
+        mkdir($dir);
+    $filename = $invitadoQR.'.png';
+    $tamaño = 10; //Tamaño de Pixel
+    $level = 'H'; //Precisión 
+    $frameSize = 3; //Tamaño en blanco
+    $contenido = $invitadoQR; //Texto
+    $rutaArchivo = $dir.$filename;
+    QRcode::png($contenido, $rutaArchivo, $level, $tamaño, $frameSize);
+    return $rutaArchivo;
+}
+
 if(isset($_POST['agregarInvitado'])){           
     $idInvitado = crearId();
     $nombreInvitado = $_POST['nombreInvitado'];
     $telefonoInvitado = $_POST['telefonoInvitado'];
     $idEvento = $_SESSION['idEvento'];
+    $qr = generarQR($idInvitado.$nombreInvitado.$telefonoInvitado.$idEvento);
     
     if(!empty($nombreInvitado) && !empty($telefonoInvitado)){
-        $qr = generarQR($idInvitado.$nombreInvitado.$telefonoInvitado.$idEvento);
-        $qr = file_get_contents($qr);
-        $qr = base64_encode($qr);
+        $data = file_get_contents($qr,$use_include_path=true);
+        $qr = $data;
 
         $sql = $cnnPDO->prepare("INSERT INTO invitados (idInvitado, nombreInvitado, telefonoInvitado, idEvento, qr) VALUES (:idInvitado, :nombreInvitado, :telefonoInvitado, :idEvento, :qr)");
         $sql->bindParam(':idInvitado',$idInvitado);
@@ -68,6 +153,7 @@ if(isset($_POST['agregarInvitado'])){
         $sql->bindParam(':idEvento',$idEvento);
         $sql->bindParam(':qr',$qr, PDO::PARAM_LOB);
         $sql->execute();
+        
         unset($sql);
         unset($cnnPDO);
         header('Location:invitados.php');
@@ -97,35 +183,39 @@ if(isset($_POST['agregarInvitado'])){
                 <p>
                 Hola <?php echo $nombre;  ?>
             </p>
-            <?php echo '<img class="foto-perfil" src="data:foto/png;base64,' . base64_encode($foto) . '"/>'?>
+            <?php echo '<img class="foto-perfil" src="data:foto/png;base64,' . base64_encode($foto) . '"/>' ?>
             </a>
-            <form action="bienvenido.php" method="post">
-                <input class="btn-cerrar-sesion" type="submit" name="logout" value="Cerrar sesion">
+            <a href="./bienvenido.php">
+                <button class='btn1'>Regresar</button>
+            </a>
+            <form action="" method="post">
+                <input class="btn2" type="submit" name="logout" value="Cerrar sesion">
             </form>
-        </div>
-        
+        </div>  
 </nav>
 <div class="container">    
-    <h1> <?php echo $_SESSION['nombreEvento']; ?> </h1>
-    <div class="card">
-    <h2>Fecha del evento: <?php echo $_SESSION['fechaEvento']; ?></h2>
-    <h2>Hora del evento: <?php echo $_SESSION['hora_evento']; ?></h2>
-    <h2>Ubicacion del evento: <?php echo $_SESSION['ubicacionEvento']; ?></h2>
-    <form action="" enctype='multipart/form-data' method="post">
-        <label for="ivitado">Nombre Invitado</label>
-        <input type="text" name="nombreInvitado" placeholder="Nombre Invitado" id="invitado">
-        <label for="tel-invitado">telefono Invitado</label>
-        <input type="text" name="telefonoInvitado" id="tel-invitado" placeholder="Telefono invitado">
-        <input name='agregarInvitado' action="agregarInvitado" type="submit" value="Agregar lista inviatdos">
-    </form>
+    <div class="card-agg-invitado">
+        <h1> <?php echo $_SESSION['nombreEvento']; ?> </h1>
+        <h2>Fecha del evento: <?php echo $_SESSION['fechaEvento']; ?></h2>
+        <h2>Hora del evento: <?php echo $_SESSION['hora_evento']; ?></h2>
+        <h2>Ubicacion del evento: <?php echo $_SESSION['ubicacionEvento']; ?></h2>
+        <form class='form-invitado' action="" enctype='multipart/form-data' method="post">
+            <label for="invitado">Nombre Invitado</label>
+            <input class="input-agg" id="invitado" type="text" name="nombreInvitado" placeholder="Nombre Invitado" id="invitado">
+            <label for="tel-invitado">telefono Invitado</label>
+            <input class="input-agg" type="text" name="telefonoInvitado" id="tel-invitado" placeholder="Telefono invitado">
+            <input class="btn-editar" name='agregarInvitado' action="agregarInvitado" type="submit" value="Agregar lista inviatdos">  
+        </form>
     </div>
-    <div class="card">
+    <div class="container-table">
         <h2>Lista de invitados</h2>
         <table>
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Telefono</th>
+                <th>QR</th>
+                <th>Acciones</th>
             </tr>
             <?php
                 $idEvento = $_SESSION['idEvento'];
@@ -136,10 +226,23 @@ if(isset($_POST['agregarInvitado'])){
                     echo '<td>' . $campo['idInvitado'] . '</td>';
                     echo '<td>' . $campo['nombreInvitado'] . '</td>';
                     echo '<td>' . $campo['telefonoInvitado'] . '</td>';
+                    echo '<td>' .
+                        '<img src="data:image/png;base64,' . base64_encode($campo['qr']) . '" width="150px" height="150px"/>'
+                        . '</td>';
+                    echo '<form method="post">'
+                    . '<input type="hidden" name="telefonoInvitado" value="'.$campo['telefonoInvitado'].'">'
+                    . '<td class="column-btn">'
+                    . '<input class="btn-eliminar" type="submit" value="Eliminar Invitado" name="eliminar">' 
+                    . '<input class="btn-editar" type="submit" value="Editar Invitado" name="editar">'
+                    . '<input class="btn-mensaje" type="submit" value="Enviar WhatsApp" name="whats">'
+                    .'</td>'
+                    .'</form>';
+
                     echo '</tr>';
                 }
             ?>
         </table>
+        
 </div>
 </body>
 </html>

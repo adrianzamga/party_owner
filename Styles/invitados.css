@@ -6,6 +6,7 @@
     --secundary: #d1d1e9;
     --tertiary: #e45858;
     --highlight: #6246ea;
+    --whatsapp: #2cb67d;
 }
 
 * {
@@ -103,4 +104,185 @@ nav a {
     color: var(--highlight);
     border: 2px solid;
     border-color: var(--highlight);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card-agg-invitado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--main);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: var(--stroke);
+    border-radius: 0.75rem;
+    width: 50%;
+    padding: 1rem;
+}
+
+.card-agg-invitado h2 {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.form-invitado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.container-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    margin-top: 0.75rem;
+    margin-bottom: 2rem;
+    background-color: var(--main);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: var(--stroke);
+    border-radius: 0.75rem;
+}
+
+table tr {
+    border: var(--stroke);
+}
+
+table td {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--stroke);
+}
+
+table th {
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--tertiary);
+    color: var(--main);
+}
+
+.btn-eliminar {
+    background-color: var(--tertiary);
+    color: var(--main);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--tertiary);
+    transition: 0.5s;
+    width: 100%;
+}
+
+.btn-eliminar:hover {
+    background-color: var(--main);
+    color: var(--tertiary);
+    border: 2px solid;
+    border-color: var(--tertiary);
+}
+
+.column-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-editar {
+    background-color: var(--highlight);
+    color: var(--main);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--highlight);
+    transition: 0.5s;
+    width: 100%;
+}
+
+.btn-editar:hover {
+    background-color: var(--main);
+    color: var(--highlight);
+    border: 2px solid;
+    border-color: var(--highlight);
+}
+
+.btn-mensaje {
+    background-color: var(--whatsapp);
+    color: var(--main);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--whatsapp);
+    transition: 0.5s;
+    width: 100%;
+}
+
+.btn-mensaje:hover {
+    background-color: var(--main);
+    color: var(--whatsapp);
+    border: 2px solid;
+    border-color: var(--whatsapp);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-agg {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid;
+    border-color: var(--stroke);
+    font-family: 'poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--stroke);
+    margin-bottom: 1rem;
+}
+
+label {
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: var(--stroke);
 }

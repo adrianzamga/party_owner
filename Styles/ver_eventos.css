@@ -105,10 +105,110 @@ nav a {
     border-color: var(--highlight);
 }
 
-.contenedor-eventos {
+main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 2rem;
+    padding: 2rem;
+}
+
+.contenedor-eventos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5rem;
+    gap: 1rem;
+}
+
+.cards {
+    background-color: var(--main);
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    width: 300px;
+}
+
+.cards p {
+    font-size: 1.25rem;
+}
+
+.contenedor-btns {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-eliminar {
+    background-color: var(--tertiary);
+    color: var(--main);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--tertiary);
+    transition: 0.5s;
+    width: 100%;
+}
+
+.btn-eliminar:hover {
+    background-color: var(--main);
+    color: var(--tertiary);
+    border: 2px solid;
+    border-color: var(--tertiary);
+}
+
+.btn-invitado {
+    background-color: var(--main);
+    color: var(--stroke);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--stroke);
+    transition: 0.5s;
+    width: 100%;
+}
+
+.btn-invitado:hover {
+    background-color: var(--stroke);
+    color: var(--main);
+    border: 2px solid;
+    border-color: var(--stroke);
+}
+
+.btn-editar {
+    background-color: var(--highlight);
+    color: var(--main);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.5s;
+    border: 2px solid;
+    border-color: var(--highlight);
+    width: 100%;
+}
+
+.btn-editar:hover {
+    background-color: var(--main);
+    color: var(--highlight);
+    border: 2px solid;
+    border-color: var(--highlight);
 }

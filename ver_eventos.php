@@ -48,9 +48,9 @@ $foto = $_SESSION['foto'];
             </form>
         </div>  
 </nav>
+<main>
+<h1>Mis eventos</h1>
     <div class="contenedor-eventos">
-
-        <h1>Mis eventos</h1>
         <?php
         $slq = $cnnPDO->prepare("SELECT * FROM eventos WHERE idUsuario = '$idUsuario'");
         $slq->execute(); 
@@ -69,15 +69,17 @@ $foto = $_SESSION['foto'];
             echo '<p>' . $campo['fechaEvento'] . '</p>';
             echo '<p>' . $campo['hora_evento'] . '</p>';
             echo '<p>' . $campo['ubicacionEvento'] . '</p>
+            <div class="contenedor-btns">
                     <input type="hidden" value="' . $idEvento . '" name="idEvento">
                     <input type="hidden" value="' . $nombreEvento . '" name="nombreEvento">
                     <input type="hidden" value="' . $fechaEvento . '" name="fechaEvento">
                     <input type="hidden" value="' . $hora_evento . '" name="hora_evento">
                     <input type="hidden" value="' . $ubicacionEvento . '" name="ubicacionEvento">
-                    <input type="submit" value="Elinimar Evento" name="eliminar">
-                    <input type="submit" value="Ver Invitados" name="verInvitados">
-                    <input type="submit" value="Editar Evento" name="editar">
-                </form>';
+                    <input class="btn-eliminar" type="submit" value="Elinimar Evento" name="eliminar">
+                    <input class="btn-invitado" type="submit" value="Ver Invitados" name="verInvitados">
+                    <input class="btn-editar" type="submit" value="Editar Evento" name="editar">
+                </div>
+                    </form>';
             echo '</div>';
         }
         if(isset($_POST['eliminar'])){
@@ -111,5 +113,7 @@ $foto = $_SESSION['foto'];
         }
         ?>
     </div>
+</main>
+
 </body>
 </html>

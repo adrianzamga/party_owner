@@ -1,8 +1,8 @@
 <?php 
 //TOKEN QUE NOS DA FACEBOOK
-$token = 'EAAFR2jaqMbkBO4HGZB00LmNzmPHCPUqRL4DwaDsZBwQzRZCx7ptJLU0RoFKr48YkKtJ2tra9cBmdDMiAfNFv0eJofHzqsIwj1uPRf20xqGNpE5GkkotM2XHuJeWllOAsZB81rYITNf6k7ewZCYF7YNxPQZB8ZCnfRquxu04qipKN68jQj38pguaZAYhfIIZCleYZC64uB2I0xgJfQfWfeaiV5s3iJ9p0CyxQVlAAQZD';
+$token = '';
 //NUESTRO TELEFONO
-$telefono = '528444596594';
+$telefono = '';
 //URL A DONDE SE MANDARA EL MENSAJE
 $url = 'https://graph.facebook.com/v17.0/119153197958114/messages';
 

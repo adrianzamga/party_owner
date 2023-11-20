@@ -1,12 +1,29 @@
 <?php
+require './qr_code/phpqrcode/qrlib.php';
+
 session_start();
+
 require_once("conexion.php");
 if(!isset($_SESSION['correo'])){
     header('Location:index.php');
 }
+
 if(isset($_POST['logout'])){
     session_destroy();
     header('Location:index.php');
+}
+
+function generarQR($invitadoQR){
+    $dir = './qr_code/temp/';
+    if (!file_exists($dir))
+        mkdir($dir);
+    $filename = $dir.$invitadoQR.'.png';
+    $tamaño = 10; //Tamaño de Pixel
+    $level = 'H'; //Precisión 
+    $frameSize = 3; //Tamaño en blanco
+    $contenido = $invitadoQR; //Texto
+    QRcode::png($contenido, $filename, $level, $tamaño, $frameSize);
+    return $filename;
 }
 
 function crearId(){
@@ -38,13 +55,11 @@ if(isset($_POST['agregarInvitado'])){
     $nombreInvitado = $_POST['nombreInvitado'];
     $telefonoInvitado = $_POST['telefonoInvitado'];
     $idEvento = $_SESSION['idEvento'];
-    $size = getimagesize($_FILES["qr"]["tmp_name"]);
-    echo '<script>alert("Hola");</script>';
     
-    
-    if(!empty($nombreInvitado) && !empty($telefonoInvitado) && $size != false){
-        $cargarImagen = $_FILES['qr']['tmp_name'];
-        $qr = fopen($cargarImagen,'rb');
+    if(!empty($nombreInvitado) && !empty($telefonoInvitado)){
+        $qr = generarQR($idInvitado.$nombreInvitado.$telefonoInvitado.$idEvento);
+        $qr = file_get_contents($qr);
+        $qr = base64_encode($qr);
 
         $sql = $cnnPDO->prepare("INSERT INTO invitados (idInvitado, nombreInvitado, telefonoInvitado, idEvento, qr) VALUES (:idInvitado, :nombreInvitado, :telefonoInvitado, :idEvento, :qr)");
         $sql->bindParam(':idInvitado',$idInvitado);
@@ -55,7 +70,6 @@ if(isset($_POST['agregarInvitado'])){
         $sql->execute();
         unset($sql);
         unset($cnnPDO);
-        echo '<script>alert("Invitado agregado correctamente");</script>';
         header('Location:invitados.php');
     }
 
@@ -102,8 +116,6 @@ if(isset($_POST['agregarInvitado'])){
         <input type="text" name="nombreInvitado" placeholder="Nombre Invitado" id="invitado">
         <label for="tel-invitado">telefono Invitado</label>
         <input type="text" name="telefonoInvitado" id="tel-invitado" placeholder="Telefono invitado">
-        <label for="foto">qr</label>
-        <input type="file" name="qr" id="foto">
         <input name='agregarInvitado' action="agregarInvitado" type="submit" value="Agregar lista inviatdos">
     </form>
     </div>

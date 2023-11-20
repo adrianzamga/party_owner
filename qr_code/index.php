@@ -17,7 +17,7 @@ $frameSize = 3; //Tamaño en blanco
 $contenido = "https://sourceforge.net/projects/phpqrcode/"; //Texto
 
     //Enviamos los parametros a la Función para generar código QR 
- QRcode::png($contenido, $filename, $level, $tamaño, $frameSize);
+QRcode::png($contenido, $filename, $level, $tamaño, $frameSize);
 
     //Se muestra la imágen generada
 echo '<img src="'.$dir.basename($filename).'" /><hr/>';  

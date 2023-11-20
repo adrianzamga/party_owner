@@ -6,12 +6,17 @@ $correo = $_SESSION['correo'];
 $telefono = $_SESSION['telefono'];
 $fechaNacimiento = $_SESSION['fechaNacimiento'];
 $foto = $_SESSION['foto'];
+
 if(!isset($_SESSION['correo'])){
     header('Location:index.php');
 }
 if(isset($_POST['logout'])){
     session_destroy();
     header('Location:index.php');
+}
+if($_SESSION['isActive'] == 'no'){
+    session_destroy();
+    header('Location:iniciar_sesion.php');
 }
 
 ?>

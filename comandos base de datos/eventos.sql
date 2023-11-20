@@ -13,3 +13,5 @@ CREATE TABLE
 ALTER TABLE `eventos` ADD UNIQUE (`idEvento`);
 
 ALTER TABLE `eventos` ADD CONSTRAINT `fk_idUsuario_evento` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `eventos` ADD `hora_evento` TIME NOT NULL AFTER `fechaEvento`;

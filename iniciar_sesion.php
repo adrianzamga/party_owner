@@ -26,7 +26,14 @@ if (isset($_POST['validar'])) {
         $_SESSION['telefono'] = $campo['telefono'];
         $_SESSION['fechaNacimiento'] = $campo['fechaNacimiento'];
         $_SESSION['foto'] = $campo['foto'];
-        header('Location:bienvenido.php');
+        $_SESSION['isActive'] =$campo['isActive'];
+        if ($correo == 'admin@admin.com') {
+            header("location: admin.php");
+            exit();
+        } else {
+            header("location: bienvenido.php");
+            exit();
+        }
     } else {
         $error = '
         <div class="alert alert-danger" role="alert">

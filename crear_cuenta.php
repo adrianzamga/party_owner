@@ -1,6 +1,14 @@
 <?php
 require_once 'conexion.php';
 
+ob_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
 function crearId(){
     global $cnnPDO;
     $query = $cnnPDO->prepare('SELECT * FROM usuarios');
@@ -44,9 +52,44 @@ if(isset($_POST['crear_cuenta'])){
 
         //Ejecutar la variable $sql
         $sql->execute();
-        unset($sql);   
-        header('Location: ./iniciar_sesion.php');
+        $mail = new PHPMailer(true); 
+        try {
+            $mail->SMTPDebug = 0;
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'partyowner18@gmail.com'; //  tu correo donde se mandará
+            $mail->Password = 'ttxy nwhx onii vfla'; //  tu contraseña de aplicaciones
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
 
+            $imagen_url0 = "https://jaircamacho.000webhostapp.com/icons8-meeting-96.png";
+
+            $mail->setFrom('partyowner18@gmail.com', 'Party Owner'); 
+            $mail->addAddress($correo);
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = '¡Gracias por ser parte de nosotros!';
+            $mail->Body =  '
+            <div style="background-color: #fff;">
+            <div style="background-color: #fff; padding: 10px; text-align: center;">
+                <img src="' . $imagen_url0 . '" alt="" style="display:block; margin:0 auto; width: 100px;">
+                <h1 style="font-size: 24px; color: #black;">Gracias por registrarte en Party Owner. Verificamos que este es tu correo: ' . $correo . '</h1>
+                <div class="text-center">
+                </div>
+            </div>
+        </div>';
+        
+           
+            $mail->send();
+            unset($sql);
+            unset($cnnPDO);
+            header('Location: ./iniciar_sesion.php'); 
+        } catch (Exception $e) {
+            $notificacion = "<div class='alert alert-danger' role='alert'>
+                <b>El registro no pudo ser realizado<br> Revisa tu conexión y vuelve a intentarlo</b>
+            </div>";
+        }
     }else{
         echo "<script>alert('Faltan campos por llenar')</script>";
     }

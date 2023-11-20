@@ -19,3 +19,5 @@ CREATE TABLE
 ALTER TABLE `usuarios` ADD UNIQUE (`idUsuario`);
 
 ALTER TABLE `usuarios` CHANGE `telefono` `telefono` VARCHAR(11) NOT NULL;
+
+ALTER TABLE `usuarios` ADD `isActive` VARCHAR(2) NOT NULL AFTER `foto`;

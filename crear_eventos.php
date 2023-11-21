@@ -106,7 +106,7 @@ if(isset($_POST['crear_evento'])){
                 <input type="time" name="hora_evento" id="hora">
                 <label for="lugar">Lugar del evento</label>
                 <input type="text" name="ubicacionEvento" id="lugar" placeholder="Lugar del evento">
-                <input type="submit" name="crear_evento" action="crear_evento"  value="Crear evento">
+                <input type="submit" name="crear_evento" class="btn-crear" action="crear_evento"  value="Crear evento">
                 </div>
                 
             </form>

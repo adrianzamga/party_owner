@@ -75,10 +75,10 @@ $foto = $_SESSION['foto'];
                     <input type="hidden" value="' . $fechaEvento . '" name="fechaEvento">
                     <input type="hidden" value="' . $hora_evento . '" name="hora_evento">
                     <input type="hidden" value="' . $ubicacionEvento . '" name="ubicacionEvento">
-                    <input class="btn-eliminar" type="submit" value="Elinimar Evento" name="eliminar">
                     <input class="btn-invitado" type="submit" value="Ver Invitados" name="verInvitados">
                     <input class="btn-editar" type="submit" value="Editar Evento" name="editar">
-                </div>
+                    <input class="btn-eliminar" type="submit" value="Elinimar Evento" name="eliminar">
+                    </div>
                     </form>';
             echo '</div>';
         }

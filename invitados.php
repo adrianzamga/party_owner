@@ -232,9 +232,9 @@ if(isset($_POST['agregarInvitado'])){
                     echo '<form method="post">'
                     . '<input type="hidden" name="telefonoInvitado" value="'.$campo['telefonoInvitado'].'">'
                     . '<td class="column-btn">'
-                    . '<input class="btn-eliminar" type="submit" value="Eliminar Invitado" name="eliminar">' 
-                    . '<input class="btn-editar" type="submit" value="Editar Invitado" name="editar">'
                     . '<input class="btn-mensaje" type="submit" value="Enviar WhatsApp" name="whats">'
+                    . '<input class="btn-editar" type="submit" value="Editar Invitado" name="editar">'
+                    . '<input class="btn-eliminar" type="submit" value="Eliminar Invitado" name="eliminar">' 
                     .'</td>'
                     .'</form>';
 

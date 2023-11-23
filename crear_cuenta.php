@@ -17,6 +17,7 @@ if(isset($_POST['crear_cuenta'])){
     $telefono = $_POST['telefono'];
     $fechaNacimiento = $_POST['fecha_nacimiento'];
     $size = getimagesize($_FILES["foto"]["tmp_name"]);
+    $isActive = 'si';
 
     if(!empty($nombre) && !empty($correo) && !empty($telefono) && !empty($fechaNacimiento) && !empty($password) && $_POST['password'] == $_POST['password2'] && $size != false){
 
@@ -27,7 +28,7 @@ if(isset($_POST['crear_cuenta'])){
 
 
         $sql=$cnnPDO->prepare("INSERT INTO usuarios
-            (idUsuario, nombre, correo,password, telefono, fechaNacimiento,  foto) VALUES (:idUsuario, :nombre, :correo,:password, :telefono, :fechaNacimiento,  :foto)");
+            (idUsuario, nombre, correo,password, telefono, fechaNacimiento,  foto, isActive) VALUES (:idUsuario, :nombre, :correo,:password, :telefono, :fechaNacimiento,  :foto, :isActive)");
 
         //Asignar el contenido de las variables a los parametros
         $sql->bindParam(':idUsuario',$idUsuario);
@@ -36,6 +37,7 @@ if(isset($_POST['crear_cuenta'])){
         $sql->bindParam(':password',$password);
         $sql->bindParam(':telefono',$telefono);
         $sql->bindParam(':fechaNacimiento',$fechaNacimiento);
+        $sql->bindParam(':isActive',$isActive);
         
         $sql->bindParam(':foto',$foto, PDO::PARAM_LOB);
 

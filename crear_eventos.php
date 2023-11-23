@@ -1,16 +1,6 @@
 <?php
 session_start();
 
-function crearId(){
-    global $cnnPDO;
-    $query = $cnnPDO->prepare('SELECT * FROM eventos');
-    $query->execute();
-    $contador=1;
-    while($campo = $query->fetch()){
-        $contador = $contador + 1; 
-    }
-    return $contador;
-}
 
 require_once("conexion.php");
 if(!isset($_SESSION['correo'])){
@@ -30,7 +20,7 @@ $foto = $_SESSION['foto'];
 
 
 if(isset($_POST['crear_evento'])){
-    $idEvento = crearId();
+    $idEvento = uniqid();
     $nombreEvento = $_POST['nombreEvento'];
     $fechaEvento = $_POST['fecha'];
     $hora_evento = $_POST['hora_evento'];

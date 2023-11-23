@@ -1,18 +1,6 @@
 <?php
 require_once 'conexion.php';
 
-function crearId(){
-    global $cnnPDO;
-    $query = $cnnPDO->prepare('SELECT * FROM usuarios');
-    $query->execute();
-    $contador=1;
-    while($campo = $query->fetch()){
-        $contador = $contador + 1; 
-    }
-    return $contador;
-}
-
-
 if(isset($_POST['crear_cuenta'])){
     $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
@@ -26,7 +14,7 @@ if(isset($_POST['crear_cuenta'])){
         $cargarImagen = $_FILES['foto']['tmp_name'];
         $foto = fopen($cargarImagen,'rb');
         
-        $idUsuario = crearId();
+        $idUsuario = uniqid();
 
 
         $sql=$cnnPDO->prepare("INSERT INTO usuarios

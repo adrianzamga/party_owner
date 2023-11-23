@@ -109,18 +109,6 @@ if(isset($_POST['whats'])){
     curl_close($curl);
 }
 
-
-function crearId(){
-    global $cnnPDO;
-    $query = $cnnPDO->prepare('SELECT * FROM invitados');
-    $query->execute();
-    $contador=1;
-    while($campo = $query->fetch()){
-        $contador = $contador + 1; 
-    }
-    return $contador;
-}
-
 function generarQR($invitadoQR){
     $dir = './temp/';
     if (!file_exists($dir))
@@ -136,7 +124,7 @@ function generarQR($invitadoQR){
 }
 
 if(isset($_POST['agregarInvitado'])){           
-    $idInvitado = crearId();
+    $idInvitado = uniqid();
     $nombreInvitado = $_POST['nombreInvitado'];
     $telefonoInvitado = $_POST['telefonoInvitado'];
     $idEvento = $_SESSION['idEvento'];

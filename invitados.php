@@ -2,7 +2,7 @@
 require './qr_code/phpqrcode/qrlib.php';
 
 session_start();
-
+require_once("conexion.php");
 
 $idUsuario = $_SESSION['idUsuario'];
 $nombre = $_SESSION['nombre'];
@@ -25,6 +25,29 @@ if(!isset($_SESSION['correo'])){
 if(isset($_POST['logout'])){
     session_destroy();
     header('Location:index.php');
+}
+
+function borrar_directorio($dirname) {
+	//si es un directorio lo abro
+         if (is_dir($dirname))
+           $dir_handle = opendir($dirname);
+        //si no es un directorio devuelvo false para avisar de que ha habido un error
+	 if (!$dir_handle)
+	      return false;
+        //recorro el contenido del directorio fichero a fichero
+	 while($file = readdir($dir_handle)) {
+	       if ($file != "." && $file != "..") {
+                   //si no es un directorio elemino el fichero con unlink()
+	            if (!is_dir($dirname."/".$file))
+	                 unlink($dirname."/".$file);
+	            else //si es un directorio hago la llamada recursiva con el nombre del directorio
+	                 borrar_directorio($dirname.'/'.$file);
+	       }
+	 }
+	 closedir($dir_handle);
+	//elimino el directorio que ya he vaciado
+	 rmdir($dirname);
+	 return true;
 }
 
 if(isset($_POST['whats'])){
@@ -144,9 +167,30 @@ if(isset($_POST['agregarInvitado'])){
         
         unset($sql);
         unset($cnnPDO);
+        borrar_directorio('./temp');
         header('Location:invitados.php');
     }
 
+}
+
+if(isset($_POST['eliminar'])){
+    $idInvitado = $_POST['idInvitado'];
+    $sql = $cnnPDO->prepare("DELETE FROM invitados WHERE idInvitado = '$idInvitado'");
+    $sql->execute();
+    unset($sql);
+    unset($cnnPDO);
+    header('Location:invitados.php');
+}
+
+if(isset($_POST['editar'])){
+    $idInvitado = $_POST['idInvitado'];
+    $sql = $cnnPDO->prepare("SELECT * FROM invitados WHERE idInvitado = '$idInvitado'");
+    $sql->execute();
+    $campo = $sql->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['idInvitado'] = $campo['idInvitado'];
+    $_SESSION['nombreInvitado'] = $campo['nombreInvitado'];
+    $_SESSION['telefonoInvitado'] = $campo['telefonoInvitado'];
+    header('Location:editar_invitado.php');
 }
 ?>
 
@@ -173,7 +217,7 @@ if(isset($_POST['agregarInvitado'])){
             </p>
             <?php echo '<img class="foto-perfil" src="data:foto/png;base64,' . base64_encode($foto) . '"/>' ?>
             </a>
-            <a href="./bienvenido.php">
+            <a href="./ver_eventos.php">
                 <button class='btn1'>Regresar</button>
             </a>
             <form action="" method="post">
@@ -219,6 +263,7 @@ if(isset($_POST['agregarInvitado'])){
                         . '</td>';
                     echo '<form method="post">'
                     . '<input type="hidden" name="telefonoInvitado" value="'.$campo['telefonoInvitado'].'">'
+                    .'<input type="hidden" name="idInvitado" value="'.$campo['idInvitado'].'">'
                     . '<td class="column-btn">'
                     . '<input class="btn-mensaje" type="submit" value="Enviar WhatsApp" name="whats">'
                     . '<input class="btn-editar" type="submit" value="Editar Invitado" name="editar">'

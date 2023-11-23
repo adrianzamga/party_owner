@@ -27,11 +27,9 @@ if(isset($_POST['crear_evento'])){
     $ubicacionEvento = $_POST['ubicacionEvento'];
 
     if(!empty($nombreEvento) && !empty($fechaEvento) && !empty($hora_evento) && !empty($ubicacionEvento)){
-        $idEvento = crearId();
+        $idEvento = uniqid();
         $sql=$cnnPDO->prepare("INSERT INTO eventos
             (idEvento, nombreEvento, fechaEvento, hora_evento, ubicacionEvento, idUsuario) VALUES (:idEvento, :nombreEvento, :fechaEvento, :hora_evento, :ubicacionEvento, :idUsuario)");
-
-        //Asignar el contenido de las variables a los parametros
         $sql->bindParam(':idEvento',$idEvento);
         $sql->bindParam(':nombreEvento',$nombreEvento);
         $sql->bindParam(':fechaEvento',$fechaEvento);
@@ -39,10 +37,9 @@ if(isset($_POST['crear_evento'])){
         $sql->bindParam(':ubicacionEvento',$ubicacionEvento);
         $sql->bindParam(':idUsuario',$idUsuario);
 
-        //Ejecutar la variable $sql
         $sql->execute();
         unset($sql);   
-        header('Location: ./bienvenido.php');
+        header('Location: ./ver_eventos.php');
 
     }else{
         echo "<script>alert('Faltan campos por llenar')</script>";

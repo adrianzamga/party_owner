@@ -2,6 +2,7 @@
 session_start();
 require_once("conexion.php");
 
+
 if(!isset($_SESSION['correo'])){
     header('Location:index.php');
 }
@@ -29,13 +30,15 @@ $_SESSION['ubicacionEvento'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Styles/editar_evento.css">
+    <title>Editar Eventos</title>
+    <link rel="stylesheet" href="./Styles/editar_evento.css">
     <title>Invitados</title>
 </head>
 <body>
-    <nav class='nav-bar'>
+<nav class='nav-bar'>
         <a href="./bienvenido.php">
             <div class='logo'> 
-                <img src="./assets/icons8-meeting.svg" alt="logo" class='logo'>
+                <img src="./assets/icons8-meeting.svg" alt="logo"class='logo'>
                 <p>Party Owner</p>
             </div>
         </a>
@@ -43,6 +46,10 @@ $_SESSION['ubicacionEvento'];
             <a href="./perfil.php">
                 <p>Hola <?php echo $nombre; ?></p>
                 <?php echo '<img class="foto-perfil" src="data:foto/png;base64,' . base64_encode($foto) . '"/>' ?>
+                <p>
+                Hola <?php echo $nombre;  ?>
+            </p>
+            <?php echo '<img class="foto-perfil" src="data:foto/png;base64,' . base64_encode($foto) . '"/>'?>
             </a>
             <a href="./bienvenido.php">
                 <button class='btn1'>Regresar</button>
@@ -75,5 +82,19 @@ $_SESSION['ubicacionEvento'];
             </div>
         </div>
     </main>
+                <input class="btn2" type="submit" name="logout" value="Cerrar sesion">
+            </form>
+        </div>  
+</nav>
+<main>
+    <?php
+    $sql = $conexion->prepare("SELECT * FROM eventos WHERE idEvento = :idEvento");
+    ?>
+    <div class="contenedor">
+        <form action="" method="post">
+
+        </form>
+    </div>
+</main>
 </body>
 </html>
